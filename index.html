@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Logic Gate Visualization Board for ICT Students (Class 6-12)">
+    <title>Logic Gate Visualization Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for Icons (Optional, or use Unicode) -->
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="title">Logic Gate Visualization Board</h1>
+        <div class="header-controls">
+            <button id="resetBtn" class="btn btn-danger">Clear Board</button>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="workspace">
+        <!-- Sidebar: Component Palette -->
+        <aside class="sidebar">
+            <h3 class="panel-title">Components</h3>
+            <div class="components-list">
+                <div class="component-item" draggable="true" data-type="INPUT">
+                    <div class="comp-icon switch-icon"></div>
+                    <span>Switch</span>
+                </div>
+                <div class="component-item" draggable="true" data-type="OUTPUT">
+                    <div class="comp-icon led-icon"></div>
+                    <span>Light Bulb</span>
+                </div>
+                <div class="separator"></div>
+                <!-- Logic Gates -->
+                <div class="component-item" draggable="true" data-type="AND">
+                    <div class="comp-shape gate-and"></div>
+                    <span>AND Gate</span>
+                </div>
+                <div class="component-item" draggable="true" data-type="OR">
+                    <div class="comp-shape gate-or"></div>
+                    <span>OR Gate</span>
+                </div>
+                <div class="component-item" draggable="true" data-type="NOT">
+                    <div class="comp-shape gate-not"></div>
+                    <span>NOT Gate</span>
+                </div>
+                <div class="component-item" draggable="true" data-type="NAND">
+                    <div class="comp-shape gate-nand"></div>
+                    <span>NAND Gate</span>
+                </div>
+                <div class="component-item" draggable="true" data-type="NOR">
+                    <div class="comp-shape gate-nor"></div>
+                    <span>NOR Gate</span>
+                </div>
+                <div class="component-item" draggable="true" data-type="XOR">
+                    <div class="comp-shape gate-xor"></div>
+                    <span>XOR Gate</span>
+                </div>
+                <div class="component-item" draggable="true" data-type="XNOR">
+                    <div class="comp-shape gate-xnor"></div>
+                    <span>XNOR Gate</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Canvas Area -->
+        <main class="canvas-container" id="canvasContainer">
+            <div class="canvas-controls">
+                <span class="help-text">Drag components here. Click two dots to connect.</span>
+            </div>
+            <!-- SVG Overlay for Wires -->
+            <svg id="wireCanvas" class="wire-canvas"></svg>
+            <!-- HTML Elements will be dropped here -->
+            <div id="circuitBoard" class="circuit-board"></div>
+        </main>
+    </div>
+
+    <!-- Floating Truth Table Button -->
+    <button id="truthTableBtn" class="floating-truth-table-btn" title="Click to view truth table">
+        <span>Truth Table</span>
+    </button>
+
+    <!-- Floating Team Button -->
+    <button id="teamBtn" class="floating-team-btn" title="Click to view project team">
+        <span>Project Team</span>
+    </button>
+
+    <!-- Team Modal -->
+    <div id="teamModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+
+            <h2 class="modal-title">Project Team</h2>
+            <p class="modal-course">ET 118 – Instructional Design, Methodologies and Technologies<br>University of
+                Frontier Technology, Bangladesh</p>
+
+            <div class="creators-grid">
+                <div class="creator-card">
+                    <div class="profile-pic-container">
+                        <img id="img1" src="img/asim.jpg" alt="Asim Ahmed" class="profile-pic">
+                        <!-- <label for="upload1" class="upload-btn">📷</label> -->
+                        <input type="file" id="upload1" accept="image/*" onchange="uploadImage(1)"
+                            style="display:none;">
+                    </div>
+                    <h4>Asim Ahmed</h4>
+                    <p class="id-number">ID: 2302001</p>
+                </div>
+
+                <div class="creator-card">
+                    <div class="profile-pic-container">
+                        <img id="img2" src="img/kamrul.jpeg" alt="Kamrul Hasan" class="profile-pic">
+                        <!-- <label for="upload2" class="upload-btn">📷</label> -->
+                        <input type="file" id="upload2" accept="image/*" onchange="uploadImage(2)"
+                            style="display:none;">
+                    </div>
+                    <h4>Kamrul Hasan</h4>
+                    <p class="id-number">ID: 2302004</p>
+                </div>
+
+                <div class="creator-card">
+                    <div class="profile-pic-container">
+                        <img id="img3" src="img/Labib.jpg" alt="Md. Labib Hasan" class="profile-pic">
+                        <!-- <label for="upload3" class="upload-btn">📷</label> -->
+                        <input type="file" id="upload3" accept="image/*" onchange="uploadImage(3)"
+                            style="display:none;">
+                    </div>
+                    <h4>Md. Labib Hasan</h4>
+                    <p class="id-number">ID: 2302009</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Truth Table Modal -->
+    <div id="truthTableModal" class="modal">
+        <div class="modal-content modal-content-wide">
+            <span class="close-btn" id="closeTruthTableModal">&times;</span>
+            <h2 class="modal-title">Truth Table</h2>
+            <div id="truthTableContainer" class="truth-table-container">
+                <div class="empty-state">Build a circuit to see the truth table.</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
